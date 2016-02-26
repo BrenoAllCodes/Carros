@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+    <title>Teste Ajax</title>
+  </head>
+  <body>
+    <h2>Mostra tipo objeto Ajax suportado pelo navegador</h2>
+    <button type="button" id="botao-disparador">Inspecionar objeto Ajax</button>
+  </body>
+
+  <script type="text/javascript">
+
+      // Exemplo de sintaxe de detecção de objeto
+      window.onload = function() {
+
+          function iniciarAjax() {
+            var objetoAjax = false;
+
+            if(window.XMLHttpRequest) {
+                objetoAjax = new XMLHttpRequest();
+                alert('O objeto AJAX para este navegador e XMLHttpRequest');
+
+            } else if(window.ActiveXObject) {
+                try{
+                    objetoAjax = new ActiveXObject("Msxml2.XMLHTTP");
+                    alert("O objeto AJAX para este navegador e: Msxml2.XMLHTTP");
+                } catch(exception) {
+                    try{
+                        objetoAjax = new ActiveXObject("Microsoft.XMLHTTP");
+                        alert('O objeto AJAX para este navegador e: Microsoft.XMLHTTP');
+                    } catch(exception) {
+                        objetoAjax = false;
+                    }
+                }
+            }
+
+            return objetoAjax;
+          }
+
+          var disparador = document.getElementById("botao-disparador");
+			    disparador.onclick = function () {
+				      return iniciarAjax();
+			    };
+
+          var requisicaoAjax = iniciarAjax();
+
+          if(requisicaoAjax) {
+              // Registra evento de mudança de estado na comunicação com o servidor
+              requisicaoAjax.onreadystatechange = function() {
+                if(requisicaoAjax.readyState == 4) {
+                    if(requisicaoAjax.status == 200 || requisicaoAjax.status == 304) {
+                        alert('>>> Chegou a requisicao feita ao servidor <<<');
+                        console.log(">>> Resposta do servidor: "+requisicaoAjax.responseText); // Retorna a reposta do servidor
+                    } else {
+                        alert('Problema na comunicação');
+                    }
+
+                }
+              };
+
+              // Abri uma comunicação com o servidor
+              requisicaoAjax.open('GET', '/Carros/carros?nome=breno+direto+do+AJAX_maujour', true);
+              //requisicaoAjax.open('GET', '/Carros/carros', true); // Retorna um JSON de carros
+              requisicaoAjax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+              requisicaoAjax.send(null);
+          }
+
+      }
+
+  </script>
+</html>
