@@ -37,12 +37,12 @@ function tratarResposta(requisicaoAjax) {
     if(requisicaoAjax.readyState == 4) {
         if(requisicaoAjax.status == 200 || requisicaoAjax == 304) {
 
-        	var dados = requisicaoAjax.responseXML; // Retorna o arquivo XML requisitado do servidor
+        	var dados = eval("(" + requisicaoAjax.responseText + ")"); // Retorna o arquivo JSON requisitado do servidor
 
-        	// Recupera os dados do XML retornado
-            var tituloDado = dados.getElementsByTagName("titulo")[0].firstChild.nodeValue;
-            var autorDado = dados.getElementsByTagName("autor")[0].firstChild.nodeValue;
-            var siteDado = dados.getElementsByTagName("site")[0].firstChild.nodeValue;
+        	// Recupera os dados do JSON retornado
+            var tituloDado = dados.livro.titulo;
+            var autorDado = dados.livro.autor;
+            var siteDado = dados.livro.site;
 
             var titulo = document.createElement("h2");
             var site = document.createElement("a");
