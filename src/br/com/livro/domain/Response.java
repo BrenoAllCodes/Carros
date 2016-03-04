@@ -1,7 +1,17 @@
 package br.com.livro.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
+/*
+ * Classe anotada para retornar um XML ou JSON  formatado contendo
+ * o status da requisição
+ * 
+ 	<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+	<response>
+    	<msg>Olá mundo XML!</msg>
+    	<status>Ok</status>
+	</response>
+	
+ * */
 @XmlRootElement
 public class Response {
 	
@@ -19,6 +29,7 @@ public class Response {
 		return response;
 	}
 	
+	// Cria uma instancia da propria classe e configura os atributo da classe
 	public static Response Error(String string) {
 		Response response = new Response();
 		
